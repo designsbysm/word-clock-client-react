@@ -9,7 +9,8 @@ body {
     align-items: center;
     -ms-flex-pack: center;
     justify-content: center;
-    height: calc(100vh - 16px);
+    height:100vh;
+    margin: 0;
 }
 
 .block {
@@ -22,7 +23,12 @@ body {
         letter-spacing: 18px;
         display: inline-block;
 
-        .active {
+        span {
+            color: #333;
+            transition: color 0.5s ease-in-out;
+        }
+
+        .it, .is, .active {
             color: #fff;
         }
 

@@ -9,7 +9,8 @@ body {
   align-items: center;
   -ms-flex-pack: center;
   justify-content: center;
-  height: calc(100vh - 16px); }
+  height: 100vh;
+  margin: 0; }
 
 .block {
   color: #333;
@@ -19,7 +20,10 @@ body {
     margin-bottom: 22px;
     letter-spacing: 18px;
     display: inline-block; }
-    .block .line .active {
+    .block .line span {
+      color: #333;
+      transition: color 0.5s ease-in-out; }
+    .block .line .it, .block .line .is, .block .line .active {
       color: #fff; }
     .block .line:last-child {
       margin-bottom: 0; }
