@@ -1,0 +1,33 @@
+body {
+    background: #000;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 36px;
+    font-weight: 300;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    height: calc(100vh - 16px);
+}
+
+.block {
+    color: #333;
+    width: 500px;
+    margin: 0 auto;
+
+    .line {
+        margin-bottom: 22px;
+        letter-spacing: 18px;
+        display: inline-block;
+
+        .active {
+            color: #fff;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
