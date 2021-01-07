@@ -12,7 +12,8 @@ $(function () {
         $('.active').removeClass('active');
 
         //minutes = now.getSeconds();
-        //minutes = 2;
+        //hour = 23;
+        //minutes = 45;
         //console.log(minutes);
 
         //set minute class
@@ -33,7 +34,6 @@ $(function () {
 
         } else if (minutes > 25 && minutes <= 35) { //half
             minutesClass = 'half';
-
         }
 
         if (minutesClass !== 'zero') {
@@ -44,11 +44,18 @@ $(function () {
                 hour++;
             }
         } else {
+            if (minutes >= 30) {
+                hour++;
+            }
             $('.hour.oclock').addClass('active');
         }
 
         if (minutesNumeric) {
             $('.minutes.numeric').addClass('active');
+        } else {
+            if (minutesClass !== 'zero') {
+                $('.minutes.a').addClass('active');
+            }
         }
 
         //set hour class
@@ -108,10 +115,15 @@ $(function () {
                 hourClass = 'eleven';
                 break;
 
+            case 0:
             case 12:
+            case 24:
                 hourClass = 'twelve';
                 break;
         }
+
+        //console.log(hour);
+        //console.log(hourClass);
 
         $('.hour.' + hourClass).addClass('active');
         $('.minutes.' + minutesClass).addClass('active');
