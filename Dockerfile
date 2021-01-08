@@ -1,5 +1,10 @@
-FROM httpd:2.4.46-alpine
+FROM node:14.15.3-alpine3.12
 
-WORKDIR /usr/local/apache2/htdocs
+WORKDIR /app
 
-COPY . .
+COPY . /app
+
+RUN npm install --loglevel=error
+RUN npm run build
+
+CMD [ "npm", "run", "serve" ]
