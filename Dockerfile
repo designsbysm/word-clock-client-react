@@ -1,10 +1,12 @@
-FROM node:14.15.3-alpine3.12
+FROM node:14.17.6-alpine
+
+ENV PATH /app/node_modules/.bin:$PATH
 
 WORKDIR /app
+COPY . ./
 
-COPY . /app
-
-RUN npm install --loglevel=error
+RUN npm install -g npm
+RUN npm install --silent
 RUN npm run build
 
-CMD [ "npm", "run", "serve" ]
+CMD ["npm", "run", "serve"]
