@@ -91,6 +91,11 @@ const wordList = {
     },
   },
   words: {
+    a: {
+      characters: "A",
+      index: 4,
+      line: 0,
+    },
     its: {
       characters: "ITS",
       index: 0,
@@ -161,6 +166,7 @@ const getWords = () => {
 
   } else if (minute > 13 && minute <= 17 || minute > 42 && minute <= 47) {
     words.push(wordList.minutes[15]);
+    words.push(wordList.words["a"]);
     minutesSet = true;
 
   } else if (minute > 17 && minute <= 25 || minute > 35 && minute <= 42) {
@@ -170,6 +176,7 @@ const getWords = () => {
 
   } else if (minute > 25 && minute <= 35) {
     words.push(wordList.minutes[30]);
+    words.push(wordList.words["a"]);
     minutesSet = true;
 
   }
