@@ -1,3 +1,13 @@
+
+const getWordGrid = () => {
+  const grid = getGrid(true);
+  const words = getWords();
+
+  return populateGrid(grid, words);
+};
+
+const getRandomGrid = () => getGrid(false);
+
 const wordList = {
   hours: {
     1: {
@@ -197,6 +207,8 @@ const getWords = () => {
 
   if (hour > 12) {
     hour = hour - 12;
+  } else if (hour === 0) {
+    hour = 12;
   }
   words.push(wordList.hours[hour]);
 
@@ -215,15 +227,6 @@ const populateGrid = (grid, words) => {
   });
 
   return grid;
-};
-
-const getRandomGrid = () => getGrid(false);
-
-const getWordGrid = () => {
-  const grid = getGrid(true);
-  const words = getWords();
-
-  return populateGrid(grid, words);
 };
 
 export { getWordGrid, getRandomGrid };
