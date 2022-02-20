@@ -1,4 +1,3 @@
-import "../styles/row.scss";
 import Cell from "./cell";
 import React from "react";
 import ReactDOM from "react-dom";

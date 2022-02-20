@@ -1,4 +1,3 @@
-import "../styles/cell.scss";
 import React from "react";
 
 const Cell = ({ cell, random, row, words }) => {

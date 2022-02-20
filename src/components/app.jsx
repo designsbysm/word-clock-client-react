@@ -1,4 +1,3 @@
-import "../styles/app.scss";
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import Row from "./row";
@@ -25,9 +24,11 @@ const App = () => {
 
   return (
     <div className="app">
-      {wordGrid.map((row, index) => {
-        return <Row key={index} cells={row} random={randomGrid} row={index} words={wordGrid} />;
-      })}
+      <div className="grid">
+        {wordGrid.map((row, index) => {
+          return <Row key={index} cells={row} random={randomGrid} row={index} words={wordGrid} />;
+        })}
+      </div>
     </div>
   );
 };
