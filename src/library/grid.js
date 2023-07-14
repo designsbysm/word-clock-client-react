@@ -1,13 +1,3 @@
-
-const getWordGrid = () => {
-  const grid = getGrid(true);
-  const words = getWords();
-
-  return populateGrid(grid, words);
-};
-
-const getRandomGrid = () => getGrid(false);
-
 const wordList = {
   hours: {
     1: {
@@ -134,26 +124,28 @@ const wordList = {
   },
 };
 
-const getGrid = empty => {
+const getEmptyGrid = () =>
+  Array(8)
+    .fill("")
+    .map(() => Array(13).fill(""));
+
+const getRandomGrid = () => {
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let chars = [];
+
   const random = () => {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-    return chars.charAt(Math.floor(Math.random() * chars.length));
-  };
-
-  const grid = [];
-
-  for (let r = 0; r < 8; r++) {
-    const row = [];
-
-    for (let c = 0; c < 13; c++) {
-      row[c] = empty ? "" : random();
+    if (!chars.length) {
+      chars = [...alphabet];
     }
 
-    grid[r] = row;
-  }
+    const index = Math.floor(Math.random() * chars.length);
+    const char = chars[index];
+    chars.splice(index, 1);
 
-  return grid;
+    return char;
+  };
+
+  return getEmptyGrid().map(row => row.map(() => random()));
 };
 
 const getWords = () => {
@@ -164,31 +156,26 @@ const getWords = () => {
   const words = [wordList.words["its"]];
   let minutesSet = false;
 
-  if (minute > 2 && minute <= 7 || minute > 53 && minute < 58) {
+  if ((minute > 2 && minute <= 7) || (minute > 53 && minute < 58)) {
     words.push(wordList.minutes[5]);
     words.push(wordList.words["minutes"]);
     minutesSet = true;
-
-  } else if (minute > 7 && minute <= 13 || minute > 47 && minute <= 53) {
+  } else if ((minute > 7 && minute <= 13) || (minute > 47 && minute <= 53)) {
     words.push(wordList.minutes[10]);
     words.push(wordList.words["minutes"]);
     minutesSet = true;
-
-  } else if (minute > 13 && minute <= 17 || minute > 42 && minute <= 47) {
+  } else if ((minute > 13 && minute <= 17) || (minute > 42 && minute <= 47)) {
     words.push(wordList.minutes[15]);
     words.push(wordList.words["a"]);
     minutesSet = true;
-
-  } else if (minute > 17 && minute <= 25 || minute > 35 && minute <= 42) {
+  } else if ((minute > 17 && minute <= 25) || (minute > 35 && minute <= 42)) {
     words.push(wordList.minutes[20]);
     words.push(wordList.words["minutes"]);
     minutesSet = true;
-
   } else if (minute > 25 && minute <= 35) {
     words.push(wordList.minutes[30]);
     words.push(wordList.words["a"]);
     minutesSet = true;
-
   }
 
   if (minutesSet) {
@@ -213,6 +200,13 @@ const getWords = () => {
   words.push(wordList.hours[hour]);
 
   return words;
+};
+
+const getWordGrid = () => {
+  const grid = getEmptyGrid();
+  const words = getWords();
+
+  return populateGrid(grid, words);
 };
 
 const populateGrid = (grid, words) => {
