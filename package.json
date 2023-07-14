@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "build": "react-scripts build",
+    "docker": "docker buildx build --platform linux/amd64 --push -t smatthews02/word-clock:latest .",
     "start": "react-scripts start",
+    "ngrok": "ngrok http 3000 --subdomain=designsbysm",
     "test": "react-scripts test"
   },
   "dependencies": {

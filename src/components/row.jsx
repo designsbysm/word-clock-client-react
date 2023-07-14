@@ -6,7 +6,15 @@ const Row = ({ cells, row, random, words }) => {
   return (
     <div className="row">
       {cells.map((cell, index) => {
-        return <Cell key={index} cell={index} random={random} row={row} words={words} />;
+        return (
+          <Cell
+            key={index}
+            cell={index}
+            random={random}
+            row={row}
+            words={words}
+          />
+        );
       })}
     </div>
   );

@@ -6,36 +6,19 @@
       "jsx": true
     }
   },
-  "plugins": [
-    "react-hooks"
-  ],
+  "plugins": ["react-hooks"],
   "rules": {
-    "array-bracket-newline": [
-      "warn",
-      {
-        "multiline": true
-      }
-    ],
-    "array-element-newline": [
-      "warn",
-      "always"
-    ],
-    "arrow-parens": [
-      "warn",
-      "as-needed"
-    ],
-    "comma-dangle": [
-      "warn",
-      "always-multiline"
-    ],
-    "eol-last": [
-      "warn",
-      "always"
-    ],
-    "eqeqeq": [
-      "error",
-      "always"
-    ],
+    // "array-bracket-newline": [
+    //   "warn",
+    //   {
+    //     "multiline": true
+    //   }
+    // ],
+    // "array-element-newline": ["warn", "always"],
+    "arrow-parens": ["warn", "as-needed"],
+    "comma-dangle": ["warn", "always-multiline"],
+    "eol-last": ["warn", "always"],
+    "eqeqeq": ["error", "always"],
     "indent": [
       "warn",
       2,
@@ -50,18 +33,11 @@
         "ignoreChainWithDepth": 1
       }
     ],
-    "no-cond-assign": [
-      "error",
-      "always"
-    ],
+    "no-cond-assign": ["error", "always"],
     "no-console": [
       "warn",
       {
-        "allow": [
-          "error",
-          "info",
-          "warn"
-        ]
+        "allow": ["error", "info", "warn"]
       }
     ],
     "no-dupe-keys": "error",
@@ -79,45 +55,22 @@
     "no-unreachable": "error",
     "no-unused-vars": "error",
     "no-var": "error",
-    "object-curly-spacing": [
-      "warn",
-      "always"
-    ],
-    "object-shorthand": [
-      "warn",
-      "always"
-    ],
-    "one-var": [
-      "error",
-      "never"
-    ],
+    "object-curly-spacing": ["warn", "always"],
+    "object-shorthand": ["warn", "always"],
+    "one-var": ["error", "never"],
     "prefer-const": "error",
-    "quotes": [
-      "warn",
-      "double"
-    ],
-    "quote-props": [
-      "warn",
-      "as-needed"
-    ],
+    "quotes": ["warn", "double"],
+    "quote-props": ["warn", "as-needed"],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "require-await": "error",
-    "semi": [
-      "warn",
-      "always"
-    ],
+    "semi": ["warn", "always"],
     "sort-keys": "warn",
-    "spaced-comment": [
-      "warn",
-      "always"
-    ]
+    "spaced-comment": ["warn", "always"]
   },
   "overrides": [
     {
-      "files": [
-        "*.jsx"
-      ],
+      "files": ["*.jsx"],
       "rules": {
         "no-unused-vars": "off"
       }
