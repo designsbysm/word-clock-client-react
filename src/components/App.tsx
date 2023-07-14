@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
-import Row from "./row";
+import React from "react";
+
+import Row from "./Row";
 import { getRandomGrid, getWordGrid } from "../library/grid";
 
 const App = () => {
@@ -20,15 +20,7 @@ const App = () => {
     <div className="app">
       <div className="grid">
         {wordGrid.map((row, index) => {
-          return (
-            <Row
-              key={index}
-              cells={row}
-              random={randomGrid}
-              row={index}
-              words={wordGrid}
-            />
-          );
+          return <Row key={index} cells={row} random={randomGrid} row={index} words={wordGrid} />;
         })}
       </div>
     </div>

@@ -1,6 +1,11 @@
 import React from "react";
 
-const Cell = ({ cell, random, row, words }) => {
+const Cell: React.FC<{
+  cell: number;
+  random: string[][];
+  row: number;
+  words: string[][];
+}> = ({ cell, random, row, words }) => {
   const char = words[row][cell];
   const rand = random[row][cell];
 

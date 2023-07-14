@@ -10,4 +10,4 @@ RUN yarn install
 COPY . .
 RUN yarn build
 
-CMD http-server build
+CMD http-server dist

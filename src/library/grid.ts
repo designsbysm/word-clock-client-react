@@ -1,4 +1,16 @@
-const wordList = {
+type Word = {
+  characters: string;
+  index: number;
+  line: number;
+};
+
+type WordList = {
+  [index: string]: {
+    [index: number | string]: Word;
+  };
+};
+
+const wordList: WordList = {
   hours: {
     1: {
       characters: "ONE",
@@ -45,7 +57,6 @@ const wordList = {
       index: 0,
       line: 6,
     },
-    // eslint-disable-next-line
     10: {
       characters: "TEN",
       index: 0,
@@ -68,7 +79,6 @@ const wordList = {
       index: 0,
       line: 2,
     },
-    // eslint-disable-next-line
     10: {
       characters: "TEN",
       index: 6,
@@ -125,13 +135,13 @@ const wordList = {
 };
 
 const getEmptyGrid = () =>
-  Array(8)
+  Array<string>(8)
     .fill("")
-    .map(() => Array(13).fill(""));
+    .map(() => Array<string>(13).fill(""));
 
 const getRandomGrid = () => {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  let chars = [];
+  let chars: string[] = [];
 
   const random = () => {
     if (!chars.length) {
@@ -145,7 +155,7 @@ const getRandomGrid = () => {
     return char;
   };
 
-  return getEmptyGrid().map(row => row.map(() => random()));
+  return getEmptyGrid().map((row) => row.map(() => random()));
 };
 
 const getWords = () => {
@@ -209,8 +219,8 @@ const getWordGrid = () => {
   return populateGrid(grid, words);
 };
 
-const populateGrid = (grid, words) => {
-  words.forEach(word => {
+const populateGrid = (grid: string[][], words: Word[]) => {
+  words.forEach((word: Word) => {
     const row = grid[word.line];
     const characters = word.characters;
     const start = word.index;
