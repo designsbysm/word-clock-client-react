@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import Row from "./Row";
+import Grid from "./Grid";
 import { getRandomGrid, getWordGrid } from "../library/grid";
 
 const App = () => {
@@ -8,21 +8,19 @@ const App = () => {
   const [randomGrid] = React.useState(getRandomGrid());
   const [refresh, setRefresh] = React.useState(true);
 
-  if (refresh) {
-    setInterval(() => {
-      setWordGrid(getWordGrid());
-    }, 60000);
+  useEffect(() => {
+    if (!refresh) {
+      return;
+    }
+
+    setInterval(() => setWordGrid(getWordGrid()), 3000);
 
     setRefresh(false);
-  }
+  }, [refresh, setRefresh]);
 
   return (
     <div className="app">
-      <div className="grid">
-        {wordGrid.map((row, index) => {
-          return <Row key={index} cells={row} random={randomGrid} row={index} words={wordGrid} />;
-        })}
-      </div>
+      <Grid random={randomGrid} words={wordGrid} />
     </div>
   );
 };

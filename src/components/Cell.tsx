@@ -1,5 +1,10 @@
 import React from "react";
 
+export interface Cell {
+  fallback: string;
+  character: string;
+}
+
 const Cell: React.FC<{
   cell: number;
   random: string[][];
