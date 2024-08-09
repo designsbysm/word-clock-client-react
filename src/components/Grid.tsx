@@ -1,16 +1,26 @@
 import React from "react";
+import styled from "styled-components";
 
 import Row from "./Row";
-import { CellGrid } from "../library/types";
+import { CellGrid, NUMBER_OF_ROWS } from "../library/types";
+
+const Grid = styled.div({
+  display: "grid",
+  fontSize: "5vmin",
+  gridTemplateRows: `repeat(${NUMBER_OF_ROWS}, 1fr)`,
+  height: "90vmin",
+  margin: "5vmin",
+  width: "90vmin",
+});
 
 const Component: React.FC<{
   grid: CellGrid;
 }> = ({ grid }) => (
-  <div className="grid">
+  <Grid>
     {grid.map((row, index) => {
       return <Row key={index} row={row} />;
     })}
-  </div>
+  </Grid>
 );
 
 export default Component;
