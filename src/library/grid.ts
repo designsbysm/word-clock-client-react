@@ -1,145 +1,54 @@
+export type Cell = {
+  fallback?: string;
+  character?: string;
+};
+
+export type Row = Cell[];
+
+export type Grid = Row[];
+
 type Word = {
   characters: string;
-  index: number;
   line: number;
+  start: number;
 };
 
-type WordList = {
-  [index: string]: {
-    [index: number | string]: Word;
-  };
-};
+export const NUMBER_OF_CELLS = 13;
+export const NUMBER_OF_ROWS = 8;
 
-const wordList: WordList = {
-  hours: {
-    1: {
-      characters: "ONE",
-      index: 7,
-      line: 3,
-    },
-    2: {
-      characters: "TWO",
-      index: 9,
-      line: 3,
-    },
-    3: {
-      characters: "THREE",
-      index: 0,
-      line: 4,
-    },
-    4: {
-      characters: "FOUR",
-      index: 5,
-      line: 4,
-    },
-    5: {
-      characters: "FIVE",
-      index: 9,
-      line: 4,
-    },
-    6: {
-      characters: "SIX",
-      index: 0,
-      line: 5,
-    },
-    7: {
-      characters: "SEVEN",
-      index: 4,
-      line: 5,
-    },
-    8: {
-      characters: "EIGHT",
-      index: 8,
-      line: 5,
-    },
-    9: {
-      characters: "NINE",
-      index: 0,
-      line: 6,
-    },
-    10: {
-      characters: "TEN",
-      index: 0,
-      line: 6,
-    },
-    11: {
-      characters: "ELEVEN",
-      index: 0,
-      line: 6,
-    },
-    12: {
-      characters: "TWELVE",
-      index: 0,
-      line: 7,
-    },
-  },
-  minutes: {
-    5: {
-      characters: "FIVE",
-      index: 0,
-      line: 2,
-    },
-    10: {
-      characters: "TEN",
-      index: 6,
-      line: 0,
-    },
-    15: {
-      characters: "QUARTER",
-      index: 0,
-      line: 1,
-    },
-    20: {
-      characters: "TWENTY",
-      index: 7,
-      line: 1,
-    },
-    30: {
-      characters: "HALF",
-      index: 9,
-      line: 0,
-    },
-  },
-  words: {
-    a: {
-      characters: "A",
-      index: 4,
-      line: 0,
-    },
-    its: {
-      characters: "ITS",
-      index: 0,
-      line: 0,
-    },
-    minutes: {
-      characters: "MINUTES",
-      index: 5,
-      line: 2,
-    },
-    oclock: {
-      characters: "OCLOCK",
-      index: 7,
-      line: 7,
-    },
-    past: {
-      characters: "PAST",
-      index: 0,
-      line: 3,
-    },
-    to: {
-      characters: "TO",
-      index: 4,
-      line: 3,
-    },
-  },
-};
+const hoursMap = new Map<number, Word>([
+  [1, { characters: "ONE", line: 3, start: 7 }],
+  [2, { characters: "TWO", line: 3, start: 9 }],
+  [3, { characters: "THREE", line: 4, start: 0 }],
+  [4, { characters: "FOUR", line: 4, start: 5 }],
+  [5, { characters: "FIVE", line: 4, start: 9 }],
+  [6, { characters: "SIX", line: 5, start: 0 }],
+  [7, { characters: "SEVEN", line: 5, start: 4 }],
+  [8, { characters: "EIGHT", line: 5, start: 8 }],
+  [9, { characters: "NINE", line: 6, start: 0 }],
+  [10, { characters: "TEN", line: 6, start: 0 }],
+  [11, { characters: "ELEVEN", line: 6, start: 0 }],
+  [12, { characters: "TWELVE", line: 7, start: 0 }],
+]);
 
-const getEmptyGrid = () =>
-  Array<string>(8)
-    .fill("")
-    .map(() => Array<string>(13).fill(""));
+const minutesMap = new Map<number, Word>([
+  [5, { characters: "FIVE", line: 2, start: 0 }],
+  [10, { characters: "TEN", line: 0, start: 6 }],
+  [15, { characters: "QUARTER", line: 1, start: 0 }],
+  [20, { characters: "TWENTY", line: 1, start: 7 }],
+  [30, { characters: "HALF", line: 0, start: 9 }],
+]);
 
-const getRandomGrid = () => {
+const othersMap = new Map<string, Word>([
+  ["a", { characters: "A", line: 0, start: 4 }],
+  ["its", { characters: "ITS", line: 0, start: 0 }],
+  ["minutes", { characters: "MINUTES", line: 2, start: 5 }],
+  ["oclock", { characters: "OCLOCK", line: 7, start: 7 }],
+  ["past", { characters: "PAST", line: 3, start: 0 }],
+  ["to", { characters: "TO", line: 3, start: 4 }],
+]);
+
+export const addFallbacks = (grid: Grid) => {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   let chars: string[] = [];
 
@@ -155,82 +64,84 @@ const getRandomGrid = () => {
     return char;
   };
 
-  return getEmptyGrid().map((row) => row.map(() => random()));
+  return grid.map(row =>
+    row.map(cell => ({
+      ...cell,
+      fallback: random(),
+    }))
+  );
 };
 
-const getWords = () => {
-  const now = new Date();
-  let hour = now.getHours();
-  const minute = now.getMinutes();
+export const applyWordListToGrid = (grid: Grid, words: Word[]) =>
+  grid.map((row, index) => {
+    const rowWords = words.filter(word => word.line === index);
+    return applyWordListToRow(row, rowWords);
+  });
 
-  const words = [wordList.words["its"]];
-  let minutesSet = false;
+export const applyWordListToRow = (row: Row, words: Word[]) => {
+  const rowMap = new Map<number, string>();
 
-  if ((minute > 2 && minute <= 7) || (minute > 53 && minute < 58)) {
-    words.push(wordList.minutes[5]);
-    words.push(wordList.words["minutes"]);
-    minutesSet = true;
-  } else if ((minute > 7 && minute <= 13) || (minute > 47 && minute <= 53)) {
-    words.push(wordList.minutes[10]);
-    words.push(wordList.words["minutes"]);
-    minutesSet = true;
-  } else if ((minute > 13 && minute <= 17) || (minute > 42 && minute <= 47)) {
-    words.push(wordList.minutes[15]);
-    words.push(wordList.words["a"]);
-    minutesSet = true;
-  } else if ((minute > 17 && minute <= 25) || (minute > 35 && minute <= 42)) {
-    words.push(wordList.minutes[20]);
-    words.push(wordList.words["minutes"]);
-    minutesSet = true;
-  } else if (minute > 25 && minute <= 35) {
-    words.push(wordList.minutes[30]);
-    words.push(wordList.words["a"]);
-    minutesSet = true;
+  words.forEach(word => {
+    const characters = [...word.characters];
+    characters.forEach((character, index) => {
+      rowMap.set(word.start + index, character);
+    });
+  });
+
+  return row.map((cell, index) => ({ ...cell, character: rowMap.get(index) }));
+};
+
+const getHours = (hours: number, minutes: number) => {
+  if (minutes > 30) {
+    hours++;
   }
 
-  if (minutesSet) {
-    if (minute <= 35) {
-      words.push(wordList.words["past"]);
-    } else {
-      words.push(wordList.words["to"]);
-      hour++;
-    }
+  if (hours > 12) {
+    hours = hours - 12;
+  } else if (hours === 0) {
+    hours = 12;
+  }
+
+  return hoursMap.get(hours);
+};
+
+const getMinutes = (minutes: number) => {
+  const words: (Word | undefined)[] = [];
+
+  if (isBetween(2, 7, minutes) || isBetween(53, 58, minutes)) {
+    words.push(minutesMap.get(5));
+    words.push(othersMap.get("minutes"));
+  } else if (isBetween(7, 13, minutes) || isBetween(47, 53, minutes)) {
+    words.push(minutesMap.get(10));
+    words.push(othersMap.get("minutes"));
+  } else if (isBetween(13, 17, minutes) || isBetween(42, 47, minutes)) {
+    words.push(minutesMap.get(15));
+    words.push(othersMap.get("a"));
+  } else if (isBetween(17, 25, minutes) || isBetween(35, 42, minutes)) {
+    words.push(minutesMap.get(20));
+    words.push(othersMap.get("minutes"));
+  } else if (isBetween(25, 35, minutes)) {
+    words.push(minutesMap.get(30));
+    words.push(othersMap.get("a"));
+  }
+
+  if (minutes > 30) {
+    words.push(othersMap.get("to"));
   } else {
-    if (minute >= 30) {
-      hour++;
-    }
-    words.push(wordList.words["oclock"]);
+    words.push(othersMap.get("past"));
   }
-
-  if (hour > 12) {
-    hour = hour - 12;
-  } else if (hour === 0) {
-    hour = 12;
-  }
-  words.push(wordList.hours[hour]);
 
   return words;
 };
 
-const getWordGrid = () => {
-  const grid = getEmptyGrid();
-  const words = getWords();
+export const getWordsList = (hours: number, minutes: number) =>
+  [othersMap.get("its"), getMinutes(minutes), getHours(hours, minutes), othersMap.get("oclock")]
+    .flat()
+    .filter(word => !!word);
 
-  return populateGrid(grid, words);
-};
+const isBetween = (min: number, max: number, value: number) => value > min && value <= max;
 
-const populateGrid = (grid: string[][], words: Word[]) => {
-  words.forEach((word: Word) => {
-    const row = grid[word.line];
-    const characters = word.characters;
-    const start = word.index;
-
-    [...characters].forEach((rune, index) => {
-      row[start + index] = rune;
-    });
-  });
-
-  return grid;
-};
-
-export { getWordGrid, getRandomGrid };
+export const makeGrid = (cells: number, rows: number) =>
+  Array(rows)
+    .fill(null)
+    .map(() => Array<Cell>(cells).fill({ character: undefined, fallback: undefined }));

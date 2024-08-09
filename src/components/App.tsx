@@ -1,28 +1,40 @@
 import React, { useEffect } from "react";
 
-import Grid from "./Grid";
-import { getRandomGrid, getWordGrid } from "../library/grid";
+import GridComponent from "./Grid";
+import {
+  addFallbacks,
+  applyWordListToGrid,
+  getWordsList,
+  Grid,
+  makeGrid,
+  NUMBER_OF_CELLS,
+  NUMBER_OF_ROWS,
+} from "../library/grid";
 
-const App = () => {
-  const [wordGrid, setWordGrid] = React.useState(getWordGrid());
-  const [randomGrid] = React.useState(getRandomGrid());
-  const [refresh, setRefresh] = React.useState(true);
+const Component = () => {
+  const [grid, setGrid] = React.useState<Grid>(() => {
+    const newGrid = makeGrid(NUMBER_OF_CELLS, NUMBER_OF_ROWS);
+    return addFallbacks(newGrid);
+  });
+  const [now, setNow] = React.useState<Date>(new Date());
 
   useEffect(() => {
-    if (!refresh) {
-      return;
-    }
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const words = getWordsList(hours, minutes);
 
-    setInterval(() => setWordGrid(getWordGrid()), 3000);
+    setGrid(grid => applyWordListToGrid(grid, words));
+  }, [now]);
 
-    setRefresh(false);
-  }, [refresh, setRefresh]);
+  useEffect(() => {
+    setInterval(() => setNow(new Date()), 60000);
+  }, []);
 
   return (
     <div className="app">
-      <Grid random={randomGrid} words={wordGrid} />
+      <GridComponent grid={grid} />
     </div>
   );
 };
 
-export default App;
+export default Component;

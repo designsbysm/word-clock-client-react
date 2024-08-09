@@ -1,20 +1,16 @@
 import React from "react";
 
-import CellComponent, { Cell } from "./Cell";
+import Cell from "./Cell";
+import { Row } from "../library/grid";
 
-export type Row = Cell[];
-
-const Row: React.FC<{
-  cells: string[];
-  random: string[][];
-  row: number;
-  words: string[][];
-}> = ({ cells, row, random, words }) => (
+const Component: React.FC<{
+  row: Row;
+}> = ({ row }) => (
   <div className="row">
-    {cells.map((_, index) => {
-      return <CellComponent key={index} cell={index} random={random} row={row} words={words} />;
+    {row.map((cell, index) => {
+      return <Cell key={index} cell={cell} />;
     })}
   </div>
 );
 
-export default Row;
+export default Component;

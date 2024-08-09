@@ -1,20 +1,11 @@
 import React from "react";
 
-export interface Cell {
-  fallback: string;
-  character: string;
-}
+import { Cell } from "../library/grid";
 
-const Cell: React.FC<{
-  cell: number;
-  random: string[][];
-  row: number;
-  words: string[][];
-}> = ({ cell, random, row, words }) => {
-  const char = words[row][cell];
-  const rand = random[row][cell];
+const Component: React.FC<{
+  cell: Cell;
+}> = ({ cell }) => (
+  <div className={cell.character ? "cell active" : "cell"}>{cell.character || cell.fallback}</div>
+);
 
-  return <div className={char ? "cell active" : "cell"}>{char || rand}</div>;
-};
-
-export default Cell;
+export default Component;
