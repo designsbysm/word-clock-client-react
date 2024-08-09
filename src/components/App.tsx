@@ -1,18 +1,11 @@
 import React, { useEffect } from "react";
 
-import GridComponent from "./Grid";
-import {
-  addFallbacks,
-  applyWordListToGrid,
-  getWordsList,
-  Grid,
-  makeGrid,
-  NUMBER_OF_CELLS,
-  NUMBER_OF_ROWS,
-} from "../library/grid";
+import Grid from "./Grid";
+import { addFallbacks, applyWordListToGrid, getWordsList, makeGrid } from "../library/grid";
+import { CellGrid, NUMBER_OF_CELLS, NUMBER_OF_ROWS } from "../library/types";
 
 const Component = () => {
-  const [grid, setGrid] = React.useState<Grid>(() => {
+  const [grid, setGrid] = React.useState<CellGrid>(() => {
     const newGrid = makeGrid(NUMBER_OF_CELLS, NUMBER_OF_ROWS);
     return addFallbacks(newGrid);
   });
@@ -27,12 +20,16 @@ const Component = () => {
   }, [now]);
 
   useEffect(() => {
-    setInterval(() => setNow(new Date()), 60000);
+    const intervalId = setInterval(() => setNow(new Date()), 6000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
   return (
     <div className="app">
-      <GridComponent grid={grid} />
+      <Grid grid={grid} />
     </div>
   );
 };

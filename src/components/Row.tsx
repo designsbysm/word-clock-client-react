@@ -1,10 +1,10 @@
 import React from "react";
 
 import Cell from "./Cell";
-import { Row } from "../library/grid";
+import { CellRow } from "../library/types";
 
 const Component: React.FC<{
-  row: Row;
+  row: CellRow;
 }> = ({ row }) => (
   <div className="row">
     {row.map((cell, index) => {

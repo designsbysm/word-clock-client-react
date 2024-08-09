@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Cell } from "../library/grid";
+import { Cell } from "../library/types";
 
 const Component: React.FC<{
   cell: Cell;
